@@ -1,6 +1,6 @@
 #!/bin/bash
 
-crontab=$(crontab -l)
+crontab=$(crontab -l -u user)
 search="rig-temp-monitor"
 
 if [[ "$crontab" == *"$search"* ]]; then
