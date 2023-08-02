@@ -7,9 +7,7 @@ import requests
 from random import randrange
 
 #initial delay
-with open("sleep.txt", "r") as f:
-    delay = f.read()
-sleep(int(delay))
+sleep(120)
 
 minute = 60
 hour = minute * 60
