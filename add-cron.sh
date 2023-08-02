@@ -8,9 +8,9 @@ if [[ "$crontab" == *"$search"* ]]; then
 else
     echo "It's not there. Adding it to cron"
     curr_date=$(date +%m%d%H%M)
-    crontab -l > mycron
-    crontab -l > mycronBACKUP$curr_date
+    crontab -l -u user > mycron
+    crontab -l -u user > mycronBACKUP$curr_date
     echo "@reboot python3 /rig-temp-monitor/rig-temp-monitor.py" >> mycron
-    crontab mycron
+    crontab -u user mycron
     rm mycron
 fi
