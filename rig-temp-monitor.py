@@ -31,7 +31,7 @@ hostname = subprocess.check_output("hostname", shell=True, encoding='utf-8').str
 print(hostname)
 
 #get Telegram key
-with open("tele.txt", "r") as f:
+with open("data/tele.txt", "r") as f:
     token = f.read().strip()
 
 tele_url = f'https://api.telegram.org/bot{token}/sendMessage'
@@ -39,22 +39,22 @@ print(tele_url)
 
 while True:
     #temperature limit
-    with open("limit.txt", "r") as f:
+    with open("data/limit.txt", "r") as f:
         limit = int(f.read())
 
     print(f'Limit is: {str(limit)}')
 
     #toggle in file turns on or off
-    with open("toggle.txt", "r") as f:
+    with open("data/toggle.txt", "r") as f:
         toggle = f.read()
         toggle = toggle.strip()
         print(f'Toggle is: {toggle}')
         if toggle == "on":
             print("LIMIT ON")
 
-            #out = subprocess.check_output("nvidia-smi", shell=True, encoding='utf-8')
-            with open("nvidia-smi.txt", "r") as f:
-                out = f.read()
+            out = subprocess.check_output("nvidia-smi", shell=True, encoding='utf-8')
+            #with open("nvidia-smi.txt", "r") as f:
+            #    out = f.read()
 
             reg = re.findall("\d{2,3}(?=C)", out)
 
