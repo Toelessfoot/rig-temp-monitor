@@ -8,7 +8,7 @@ from random import randrange
 
 minute = 60
 hour = minute * 60
-timeout = 1 * hour + randrange(1 * hour)
+timeout = hour + randrange(hour)
 timeout_min = timeout / 60
 
 def send_telegram_msg(msg):
@@ -63,7 +63,7 @@ while True:
                 if int(i) > limit:
                     print("HIGH")
                     send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
-                    subprocess.run(f"sreboot wakealarm {timeout}")
+                    #subprocess.run(f"sreboot wakealarm {timeout}")
                     exit()
     sleep(30)
 
