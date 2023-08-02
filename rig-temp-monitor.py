@@ -6,16 +6,7 @@ import os
 import requests
 from random import randrange
 
-#initial delay
-sleep(120)
-
-minute = 60
-hour = minute * 60
-timeout = hour + randrange(hour)
-timeout_min = timeout / 60
-
 def send_telegram_msg(msg):
-    print(msg)
     data = {
         'text': msg,
         'chat_id': '-795504579'
@@ -24,28 +15,36 @@ def send_telegram_msg(msg):
     print(req)
     print(req.text)
 
+
+hostname = subprocess.check_output("hostname", shell=True, encoding='utf-8').strip()
+
+#get Telegram key
+with open("data/tele.txt", "r") as f:
+    token = f.read().strip()
+tele_url = f'https://api.telegram.org/bot{token}/sendMessage'
+
+#initial delay
+sleep(20)
+send_telegram_msg(f'{hostname} booted')
+sleep(100)
+
+minute = 60
+hour = minute * 60
+timeout = hour + randrange(hour)
+timeout_min = timeout / 60
+
 #get script directory and change cwd to it
 print(f'Current Working Path: {os.getcwd()}')
 script_dir = os.path.dirname(os.path.abspath(argv[0]))
 print(f'Changing cwd to: {script_dir}')
 os.chdir(script_dir)
 
-hostname = subprocess.check_output("hostname", shell=True, encoding='utf-8').strip()
-print(hostname)
-
-#get Telegram key
-with open("data/tele.txt", "r") as f:
-    token = f.read().strip()
-
-tele_url = f'https://api.telegram.org/bot{token}/sendMessage'
-print(tele_url)
-
 while True:
     #temperature limit
     with open("data/limit.txt", "r") as f:
         limit = int(f.read())
 
-    if limit > 80:
+    if limit >= 80:
         print(f'Limit is: {str(limit)}')
 
         #toggle in file turns on or off
@@ -67,7 +66,7 @@ while True:
                     if int(i) > limit:
                         print("HIGH")
                         send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
-                        subprocess.run(f"sreboot wakealarm {timeout}")
+                        subprocess.run(f"sreboot wakealarm {timeout}", shell=True)
                         exit()
     else:
         print("limit is too low")
