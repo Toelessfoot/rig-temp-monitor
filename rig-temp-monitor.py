@@ -63,7 +63,7 @@ while True:
                 if int(i) > limit:
                     print("HIGH")
                     send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
-                    #subprocess.run(f"sreboot wakealarm {timeout}")
+                    subprocess.run(f"sreboot wakealarm {timeout}")
                     exit()
     sleep(30)
 
