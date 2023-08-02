@@ -6,6 +6,11 @@ import os
 import requests
 from random import randrange
 
+#initial delay
+with open("sleep.txt", "r") as f:
+    delay = f.read()
+sleep(int(delay))
+
 minute = 60
 hour = minute * 60
 timeout = hour + randrange(hour)
@@ -42,28 +47,31 @@ while True:
     with open("data/limit.txt", "r") as f:
         limit = int(f.read())
 
-    print(f'Limit is: {str(limit)}')
+    if limit > 80:
+        print(f'Limit is: {str(limit)}')
 
-    #toggle in file turns on or off
-    with open("data/toggle.txt", "r") as f:
-        toggle = f.read()
-        toggle = toggle.strip()
-        print(f'Toggle is: {toggle}')
-        if toggle == "on":
-            print("LIMIT ON")
+        #toggle in file turns on or off
+        with open("data/toggle.txt", "r") as f:
+            toggle = f.read()
+            toggle = toggle.strip()
+            print(f'Toggle is: {toggle}')
+            if toggle == "on":
+                print("LIMIT ON")
 
-            out = subprocess.check_output("nvidia-smi", shell=True, encoding='utf-8')
-            #with open("nvidia-smi.txt", "r") as f:
-            #    out = f.read()
+                out = subprocess.check_output("nvidia-smi", shell=True, encoding='utf-8')
+                #with open("nvidia-smi.txt", "r") as f:
+                #    out = f.read()
 
-            reg = re.findall("\d{2,3}(?=C)", out)
+                reg = re.findall("\d{2,3}(?=C)", out)
 
-            for i in reg:
-                print(i)
-                if int(i) > limit:
-                    print("HIGH")
-                    send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
-                    subprocess.run(f"sreboot wakealarm {timeout}")
-                    exit()
+                for i in reg:
+                    print(i)
+                    if int(i) > limit:
+                        print("HIGH")
+                        send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
+                        subprocess.run(f"sreboot wakealarm {timeout}")
+                        exit()
+    else:
+        print("limit is too low")
     sleep(30)
 
