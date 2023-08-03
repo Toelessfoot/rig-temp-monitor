@@ -16,6 +16,12 @@ def send_telegram_msg(msg):
     print(req.text)
 
 
+#get script directory and change cwd to it
+print(f'Current Working Path: {os.getcwd()}')
+script_dir = os.path.dirname(os.path.abspath(argv[0]))
+print(f'Changing cwd to: {script_dir}')
+os.chdir(script_dir)
+
 hostname = subprocess.check_output("hostname", shell=True, encoding='utf-8').strip()
 
 #get Telegram key
@@ -32,12 +38,6 @@ minute = 60
 hour = minute * 60
 timeout = hour + randrange(hour)
 timeout_min = timeout / 60
-
-#get script directory and change cwd to it
-print(f'Current Working Path: {os.getcwd()}')
-script_dir = os.path.dirname(os.path.abspath(argv[0]))
-print(f'Changing cwd to: {script_dir}')
-os.chdir(script_dir)
 
 while True:
     #temperature limit
