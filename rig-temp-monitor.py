@@ -63,7 +63,7 @@ while True:
                         if int(i) > limit:
                             print("HIGH")
                             send_telegram_msg(f"{hostname} - HIGH TEMPS shutting down for {timeout_min} min")
-                            subprocess.run(f"sudo sreboot wakealarm {timeout}", shell=True)
+                            subprocess.run(f"sudo /hive/sbin/sreboot wakealarm {timeout}", shell=True)
                             exit()
                 except:
                     print("An error occured with SMI")
