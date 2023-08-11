@@ -11,10 +11,12 @@ def send_telegram_msg(msg):
         'text': msg,
         'chat_id': '-795504579'
     }
-    req = requests.post(tele_url, data=data)
-    print(req)
-    print(req.text)
-
+    try:
+        req = requests.post(tele_url, data=data)
+        print(req)
+        print(req.text)
+    except:
+        print("Telegram message failed to send")
 
 #get script directory and change cwd to it
 print(f'Current Working Path: {os.getcwd()}')
