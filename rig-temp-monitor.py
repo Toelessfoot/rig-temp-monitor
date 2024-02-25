@@ -34,11 +34,11 @@ tele_url = f'https://api.telegram.org/bot{token}/sendMessage'
 #initial delay
 sleep(20)
 send_telegram_msg(f'{hostname} booted')
-sleep(100)
+sleep(600)
 
 minute = 60
 hour = minute * 60
-timeout = hour + randrange(hour)
+timeout = 2 * hour + randrange(hour)
 timeout_min = timeout / 60
 
 while True:
@@ -46,7 +46,7 @@ while True:
     with open("data/limit.txt", "r") as f:
         limit = int(f.read())
 
-    if limit >= 80:
+    if limit >= 72:
         print(f'Limit is: {str(limit)}')
 
         #toggle in file turns on or off
